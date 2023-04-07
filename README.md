@@ -6,3 +6,11 @@ The program first walks you through Object-Oriented Programming concepts and the
 ## Installation
 
 Clone this repo: `git clone https://github.com/yacin-hamdi/udacity_cpp.git`
+
+## Build Instructions
+
+See the build instructions in each project folder.
+
+## [Project 1 - Route Planning](https://github.com/yacin-hamdi/udacity_cpp/tree/main/1-CppND-Route-Planning)
+
+In this project, we create a route planner between two points on real map data. The optimal path between the starting point and the ending point can be found by implementing A* search algorithm.
