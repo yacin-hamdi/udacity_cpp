@@ -7,6 +7,7 @@ class Util{
         static std::ifstream getStream(std::string path);
         static std::string convertToTime(long int seconds);
         static std::string getProgressBar(std::string percent);
+        static std::vector<std::string> getLine(std::string line);
 };
 
 std::ifstream Util::getStream(std::string path){
@@ -41,4 +42,11 @@ std::string Util::getProgressBar(std::string percent){
     result += " " + percent.substr(0, 5) + "/100%";
 
     return result;
+}
+
+std::vector<std::string> Util::getLine(std::string line){
+    std::istringstream mystream(line);
+    std::istream_iterator<std::string>beg(mystream), end;
+    std::vector<std::string> results (beg, end);
+    return results;
 }
