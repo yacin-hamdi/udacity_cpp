@@ -1,3 +1,5 @@
+#pragma once
+
 #include "process.h"
 
 
@@ -15,6 +17,14 @@ class ProcessContainer{
 
 };
 
+std::vector<std::string> ProcessContainer::getList(){
+    std::vector<std::string> values;
+    for (int i = (this->list_.size()-10); i < this->list_.size(); i++){
+        values.push_back(this->list_[i].getProcess());
+    }
+    return values;
+}
+
 void ProcessContainer::refreshList(){
     std::vector<std::string> pids = ProcessParser::getPidList();
     list_.clear();
@@ -25,5 +35,9 @@ void ProcessContainer::refreshList(){
 }
 
 std::string ProcessContainer::printList(){
-    
+    std::string result="";
+    for (auto i : list_) {
+        result += i.getProcess();
+    }
+    return result;
 }

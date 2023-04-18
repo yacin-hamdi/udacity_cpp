@@ -1,6 +1,8 @@
+
+#pragma once
+#include<iterator>
 #include<fstream>
 #include<string>
-
 
 class Util{
     public:

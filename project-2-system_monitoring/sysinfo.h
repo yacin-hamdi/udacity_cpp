@@ -1,3 +1,6 @@
+
+#pragma once
+
 #include "processparser.h"
 
 class SysInfo{
@@ -18,7 +21,7 @@ class SysInfo{
         int threads;
     public:
         SysInfo(){
-            this->getOtherCores(ProcessParser::getNumberOfCores())
+            this->getOtherCores(ProcessParser::getNumberOfCores());
             this->setLastCpuMeasures();
             this->setAttributes();
             this->osName = ProcessParser::getOsName();

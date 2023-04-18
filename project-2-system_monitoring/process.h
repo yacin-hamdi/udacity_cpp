@@ -1,5 +1,6 @@
-#include<string>
-#include "processparser.h"
+#pragma once
+
+#include <string>
 
 class Process{
     private:
@@ -47,12 +48,13 @@ std::string Process::getProcess(){
     this->mem = ProcessParser::getVmSize(this->pid);
     this->uptime = ProcessParser::getProcUpTime(this->pid);
     this->cpu = ProcessParser::getCpuPercent(this->pid);
+    std::string str = "          ";
 
-    return this->pid + " " 
-            + this->user + " " 
-            + this->mem.substr(0,5) + " " 
-            + this->cpu.substr(0,5) + " " 
-            + this->uptime.substr(0,5) + " " 
+    return this->pid + str.substr(0,5)
+            + this->user + str.substr(0,5) 
+            + this->cpu.substr(0,5) + str.substr(0,4)
+            + this->mem.substr(0,5) + str.substr(0,4)
+            + this->uptime.substr(0,5) + str.substr(0,5)
             + this->cmd.substr(0,30)
             + "...";
 
