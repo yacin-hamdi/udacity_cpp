@@ -30,14 +30,15 @@
 
 
 namespace custom{
-
     template<typename t> class list{
+
+
         private:
             struct node{
+                node *prev;
+                node *next;
                 t value;
-                node* prev;
-                node* next;
-                node(t value_, node* prev_, node* next_):value(value_), prev(prev_), next(next_){}
+                node(t value_, node*prev_, node*next_):value(value_), prev(prev_), next(next_){}
             };
 
             node* head;
@@ -45,18 +46,103 @@ namespace custom{
 
 
         public:
-
-            list():head(NULL), tail(NULL){}
+            list():head(NULL),tail(NULL){}
             ~list();
-            void push_front(t);
             void push_back(t);
+            void push_front(t);
             t pop_front();
             t pop_back();
             void print();
-            bool empty()const;
+            bool empty()const{return !head | !tail;};
+
     };
+
+     template<typename t> void list<t>::push_front(t element){
+        node * front_node = new node(element, nullptr, head);
+        if(head == nullptr and tail == nullptr){
+            head = front_node;
+            tail = front_node;
+        }else{
+            head->prev = front_node;
+            head = front_node;
+        }
+    }
+
+    template<typename t> void list<t>::push_back(t element){
+        node* back_node = new node(element, tail, nullptr);
+        if(head == nullptr and tail == nullptr){
+            head = back_node;
+            tail = back_node;
+        }else{
+            tail->next= back_node;
+            tail = back_node;
+        }
+    }
+
+    template<typename t> t list<t>::pop_front(){
+        if(list<t>::empty()){
+            throw("list is empty");
+        }
+        node* temp(head);
+        t value = head->value;
+        head = head->next;
+        if(head){
+            head->prev = nullptr;
+        }else{
+            tail = nullptr;
+        }
+
+        delete temp;
+        return value;
+
+    }
+
+    template<typename t> t list<t>::pop_back(){
+        if(list<t>::empty()){
+            throw("list is empty");
+        }
+
+        node* temp(tail);
+        t value = tail->value;
+        tail = tail->prev;
+        if(tail)
+            tail->next = nullptr;
+        else   
+            head = nullptr;
+
+        delete temp;
+        return value; 
+
+    }
+
+    template<typename t> void list<t>::print(){
+        node* ptr = list<t>::head;
+        while(ptr != nullptr){
+            std::cout << ptr->value<< std::endl;
+            ptr = ptr->next;
+        }
+    }
+
+    template<typename t> list<t>::~list(){
+        while(head){
+            node* temp(head);
+            head = head->next;
+            delete(temp);
+        }
+    }
 }
 
 int main(){
+    custom::list<int>ls;
+    ls.push_back(1);
+    ls.push_back(2);
+    ls.push_front(3);
+    ls.print();
+    std::cout << ";;;;;;;;"<< std::endl;
+    ls.pop_back();
+    ls.pop_front();
+    ls.pop_front();
+    ls.print();
+
     return 0;
 }
