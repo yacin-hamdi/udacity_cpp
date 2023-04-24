@@ -1,3 +1,5 @@
+
+
 /*
 1.  Create class called binary_tree
 2.  Create structure called node
@@ -75,8 +77,8 @@ class BinaryTree{
             if(!ptr->left_ && !ptr->right_){
                 if(ptr->data_ == item)
                     return true;
-                else    
-                    return false;
+ 
+                return false;
             }
 
             if(ptr->data_ > item && ptr->right_){
@@ -117,6 +119,7 @@ int main() {
 //   std::cout << tree.searchItem(9) << std::endl;
   tree.addData(11);
   std::cout << tree.searchItem(11) << std::endl;
+  std::cout << tree.searchItem(10) << std::endl;
   /* OUTPUT:
       1
       0
@@ -124,3 +127,5 @@ int main() {
   */
   return 0;
 }
+
+
