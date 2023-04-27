@@ -18,3 +18,7 @@ In this project, we create a route planner between two points on real map data. 
 ## [Project 2 - System Monitor](https://github.com/yacin-hamdi/udacity_cpp/tree/main/project-2-system_monitoring)
 
 In this project, we build a system monitor that resemble the program [htop](https://htop.dev/), which is a standard program for monitoring Linux systems.
+
+## [Project 3 - Memory Management Chatbot](https://github.com/yacin-hamdi/udacity_cpp/tree/main/project-3-garbage_collector)
+
+In this project, we create a garbage collector with modern c++ memory management method (e.g. smart pointer, move semantics).
