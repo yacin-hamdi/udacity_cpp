@@ -21,4 +21,4 @@ In this project, we build a system monitor that resemble the program [htop](http
 
 ## [Project 3 - Garbage collector](https://github.com/yacin-hamdi/udacity_cpp/tree/main/project-3-garbage_collector)
 
-In this project, we create a garbage collector with modern c++ memory management method (e.g. smart pointer, move semantics).
+In this project, we create a garbage collector with modern c++ memory management method (e.g. smart pointer...).
