@@ -22,3 +22,6 @@ In this project, we build a system monitor that resemble the program [htop](http
 ## [Project 3 - Garbage collector](https://github.com/yacin-hamdi/udacity_cpp/tree/main/project-3-garbage_collector)
 
 In this project, we create a garbage collector with modern c++ memory management method (e.g. smart pointer...).
+## [Project 4 - Program a Concurrent Traffic Simulation](https://github.com/yacin-hamdi/udacity_cpp/tree/main/project-4-concurrent_traffic_simulation)
+
+In this project, we build a multithreaded traffic simulator (vehicles, streets, intersections and traffic lights) using a real urban map. Each vehicle is run on a separate thread. And intersections are managed to facilitate traffic flow and avoid collisions.
