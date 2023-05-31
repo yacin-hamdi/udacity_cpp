@@ -5,19 +5,18 @@
 #include<string>
 #include<mysql/mysql.h>
 #include<mysql/mysqld_error.h>
-#include "client.h"
+#include "customer.h"
 
 class DatabaseHelper{
     public:
-        DatabaseHelper(std::string hostname, std::string user, 
-        std::string password, std::string database);
+        DatabaseHelper(std::string filename);
+        DatabaseHelper(){}
 
-        void setDetails(std::string hostname, std::string user, 
-        std::string password, std::string database);
+        void setDetailsFromFile(std::string filename);
 
         void dbConnect();
-        int insertData(Client user, std::string table_name);
-        
+        int insertData(Customer customer, std::string table_name);
+        void displayData(std::string table_name);
 
         //accessor
         bool isConnected();
