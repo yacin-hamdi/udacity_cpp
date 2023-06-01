@@ -4,31 +4,9 @@
 
 
 DatabaseHelper::DatabaseHelper(std::string filename){
-    DatabaseHelper::setDetailsFromFile(filename);
+    _details.setDetailsFromFile(filename);
 }
 
-void DatabaseHelper::setDetailsFromFile(std::string filename){
-    std::ifstream file(filename);
-    std::string line;
-    std::string name;
-
-    if(file){
-        while(getline(file, line)){
-            name = line.substr(line.find("::")+2, line.size());
-        if( line.substr(0, line.find("::")) == "hostname")
-            this->_hostname = name;
-        else if(line.substr(0, line.find("::")) == "user")
-            this->_user = name;
-        else if(line.substr(0, line.find("::")) == "password")
-            this->_password = name;
-        else if(line.substr(0, line.find("::")) == "database")
-            this->_database = name;
-    }
-    }else{
-        throw std::runtime_error("file not found");
-    }
-    
-}
 
 int DatabaseHelper::insertData(Customer customer, std::string table_name){
 
@@ -43,15 +21,14 @@ int DatabaseHelper::insertData(Customer customer, std::string table_name){
 }
 
 void DatabaseHelper::displayData(std::string table_name){
-    MYSQL_ROW row;
-    std::string query = "select * from " + table_name;
-    int state = mysql_query(_connection, query.c_str());
+    _query = "select * from " + table_name;
+    int state = mysql_query(_connection, _query.c_str());
     if (state == 0){
-        MYSQL_RES * res = mysql_store_result(_connection);
-        int count = mysql_num_fields(res);
-        while(row = mysql_fetch_row(res)){
+        _res = mysql_store_result(_connection);
+        int count = mysql_num_fields(_res);
+        while(_row = mysql_fetch_row(_res)){
             for(int i = 0;i<count;i++){
-                std::cout  << row[i] << "\t";
+                std::cout  << _row[i] << "\t";
             }
             std::cout << std::endl;
         }
@@ -60,10 +37,31 @@ void DatabaseHelper::displayData(std::string table_name){
    
 }
 
+bool DatabaseHelper::checkLogin(std::string table_name, std::string username, std::string password){
+    _query = "select login, password from "+table_name+" where login='"+username+"' and password='"+password+"'";
+    if(mysql_query(_connection, _query.c_str()) == 0){
+        _res = mysql_store_result(_connection);
+        int count = mysql_num_rows(_res);
+        if(count){
+            _row = mysql_fetch_row(_res);
+            return _row[0] == username && _row[1] == password;
+        }
+
+        return false;
+        
+        
+    }
+    
+
+    return false;
+}
+
+
+
 void DatabaseHelper::dbConnect(){
     _connection = mysql_init(0);
-    _connection = mysql_real_connect(_connection, _hostname.c_str(),
-     _user.c_str(), _password.c_str(), _database.c_str(), 0, NULL, 0);
+    _connection = mysql_real_connect(_connection, _details.getHostname().c_str(),
+     _details.getUser().c_str(), _details.getPassword().c_str(), _details.getDatabase().c_str(), 0, NULL, 0);
 
      if(_connection)
         _success = true;
@@ -71,6 +69,9 @@ void DatabaseHelper::dbConnect(){
         _success = false;
      
 }
+
+
+
 
 MYSQL* DatabaseHelper::getMysqlConnection(){return _connection;}
 bool DatabaseHelper::isConnected(){return _success;}
