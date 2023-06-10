@@ -13,7 +13,8 @@ INSERT INTO tblUsers(name, surname, email, password) VALUES ("mike", "wowzowski"
 INSERT INTO tblUsers(name, surname, email, password) VALUES ("luke", "bordom", "luke@gmail.com", "password2");
 INSERT INTO tblUsers(name, surname, email, password) VALUES ("sam", "dally", "sam@gmail.com", "password3");
 
-
+INSERT INTO customer(name, email, phone, dob, city, pincode, login, password) VALUES ("sam", "dally@gmail.com", 
+"25562452", "1995-2-1", "tunis", "8100", "dally", "azerty");
  */
 
 //ubuntu
@@ -21,30 +22,36 @@ INSERT INTO tblUsers(name, surname, email, password) VALUES ("sam", "dally", "sa
 
 #include<iostream>
 #include "databasehelper.h"
-#include "client.h"
+#include "customer.h"
+#include "base.h"
 
 
-
+//todo when remove user account i need to 
+//check i the account i want to remove is not my account or admin account
+//also check if the account exist
 
 int main(){
-    std::string hostname = "localhost";
-    std::string dbuser = "yacin";
-    std::string password = "password";
-    std::string database = "test1";
-    DatabaseHelper databaseHelper(hostname, dbuser, password, database);
-    databaseHelper.dbConnect();
-    if(databaseHelper.getMysqlConnection())
-        std::cout << "you are connected" << std::endl;
-    else
-        std::cout << "you aren't connected to database" << std::endl;
-    Client user("mss", "moos", "ay@gmail.com", "pass", "123456");
+    std::string filename = "database.dat";
+    
+    Base base;
+    base.checkLogin();
+ 
+    // DatabaseHelper databaseHelper(filename);
+    // databaseHelper.dbConnect();
+    // if(databaseHelper.getMysqlConnection())
+    //     std::cout << "you are connected" << std::endl;
+    // else
+    //     std::cout << "you aren't connected to database" << std::endl;
+    // Customer customer("mss", "moos@gmail.com", "25325622", "1988-1-2", "tunis", "750", "helm", "123456789");
 
-    int state = databaseHelper.insertData(user, "bankUsers");
-    if(state == 0){
-        std::cout << "client inserted successfully" << std::endl;
-    }else{
-        std::cout << "failed to add client" << std::endl;
-    }
+    // int state = databaseHelper.insertData(customer, "customer");
+    // if(state == 0){
+    //     std::cout << "client inserted successfully" << std::endl;
+    // }else{
+    //     std::cout << "failed to add client" << std::endl;
+    // }
+
+    // databaseHelper.displayData("customer");
 
     return 0;
 }
