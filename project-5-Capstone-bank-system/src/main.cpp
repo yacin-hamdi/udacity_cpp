@@ -21,8 +21,6 @@ INSERT INTO customer(name, email, phone, dob, city, pincode, login, password) VA
 //g++ main.cpp -o test `mysql_config --cflags --libs`
 
 #include<iostream>
-#include "databasehelper.h"
-#include "customer.h"
 #include "base.h"
 
 
@@ -34,7 +32,7 @@ int main(){
     std::string filename = "database.dat";
     
     Base base;
-    base.checkLogin();
+    base.start();
  
     // DatabaseHelper databaseHelper(filename);
     // databaseHelper.dbConnect();

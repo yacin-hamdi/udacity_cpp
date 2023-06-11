@@ -1,14 +1,12 @@
 #ifndef BASE_H
 #define BASE_H
-
-#include "interface.h"
 #include "databasehelper.h"
-#include "constants.h"
+#include "interface.h"
 
 class Base{
     public:
         Base(){}
-        void checkLogin();
+        void start();
 
     private:
         void closeAccount();
@@ -21,9 +19,15 @@ class Base{
         Interface _interface;
         DatabaseHelper _dbHelper{DATABASE_DETAILS};
         bool _login_success = false;
+        bool _is_connected = false;
         int _num = 0;
         bool _exit = false;
         Auth _auth;
+        std::vector<std::vector<std::string>> _all_user_details;
+        std::vector<std::string> _user_details;
+
+        std::vector<std::string> _temp;
+        bool _state;
         
 };
 

@@ -1,8 +1,8 @@
 #include "interface.h"
-#include "helper.h"
+#include "utils.h"
 
 
-bool Interface::connectToDatabaseInterface(bool connected){
+bool Interface::connectToDatabaseInterface(bool &connected){
     std::cout << "connecting to database..." << std::endl;
     if(connected){
         std::cout << "you are connected"<< std::endl;
@@ -13,6 +13,8 @@ bool Interface::connectToDatabaseInterface(bool connected){
     std::cout << "==============welcome to my bank=============\n";
     return connected;
 }
+
+
 
 Auth Interface::loginInterface(){
     
@@ -37,30 +39,7 @@ bool Interface::loginSuccess(bool &success){
     return success;
 }
 
-int Interface::userInterface(){
-    std::string num = "";
-    std::cout << "=============================================\n\n";
-    std::cout << "::USER INTERFACE::\n\n";
-    std::cout << "1.Account Details" << std::endl;
-    std::cout << "2.Withdraw Amount" << std::endl;
-    std::cout << "3.Balance Enquiry" << std::endl;
-    std::cout << "4.Modify Your Account" << std::endl;
-    std::cout << "5.Close Your Account" << std::endl;
-    std::cout << "6.Exit" << std::endl;
-    std::cout << "=============================================\n\n";
-    std::cout << "enter a number 1-6:";
-    std::cin >> num;
-    std::cout << "\n\n=============================================\n\n";
-
-    if(!stringIsDigit(num) || stoi(num) <1 || stoi(num) >6){
-        std::cout << "please try again enter a number between 1 and 6\n\n";
-        return 0;
-    }
-    return stoi(num);
-}
-
 int Interface::adminInterface(){
-    std::string num = "";
     std::cout << "\n\n=============================================\n\n";
     std::cout << "::ADMIN INTERFACE::\n\n";
     std::cout << "1.List Accounts" << std::endl;
@@ -70,28 +49,27 @@ int Interface::adminInterface(){
     std::cout << "5.Exit" << std::endl;
     std::cout << "\n\n=============================================\n\n";
     std::cout << "enter a number 1-5:";
-    std::cin >> num;
+    std::cin >> _temp;
     std::cout << "\n\n=============================================\n\n";
     
-    if(!stringIsDigit(num) || stoi(num) < 1 || stoi(num) > 5){
-        std::cout << "please try again enter a number between 1 and 6\n\n";
+    if(!Util::stringIsDigit(_temp) || stoi(_temp) < 1 || stoi(_temp) > 5){
+        std::cout << "please try again enter a number between 1 and 5\n\n";
         return 0;
     }
     
     
-    return stoi(num);
+    return stoi(_temp);
 }
 
 std::string Interface::closeAccountInterface(){
     
-    std::string sure = "n";
     std::cout << "=============================================\n\n";
     std::cout << "::CLOSE YOU ACCOUNT::\n\n";
     std::cout << "are you sure you want to close your account y/n:";
-    std::cin >> sure;
+    std::cin >> _temp;
     std::cout << std::endl;
 
-    return sure;
+    return _temp;
     
 }
 
@@ -102,7 +80,7 @@ void Interface::byeAccountInterface(){
     std::cout << "bye!\n";
 }
 
-int Interface::userAccountDetailsInterface(std::vector<std::string> user_details){
+int Interface::userAccountDetailsInterface(std::vector<std::string> &user_details){
 
     for(int i=1;i<user_details.size() - 1;i++){
         std::cout << CUSTOMER_COLUMNS[i] << " : "<< user_details[i] << "\n";
@@ -111,7 +89,7 @@ int Interface::userAccountDetailsInterface(std::vector<std::string> user_details
     return 0;
 }
 
-int Interface::allUserAccountDetailsInterface(std::vector<std::vector<std::string>> all_user_details){
+int Interface::allUserAccountDetailsInterface(std::vector<std::vector<std::string>> &all_user_details){
 
         std::cout << "::BANK USERS::\n\n";
     for(int j=0;j<CUSTOMER_COLUMNS.size();j++){
@@ -129,56 +107,74 @@ int Interface::allUserAccountDetailsInterface(std::vector<std::vector<std::strin
     return 0;
 }
 
+int Interface::userInterface(){
+    std::cout << "=============================================\n\n";
+    std::cout << "::USER INTERFACE::\n\n";
+    std::cout << "1.Account Details" << std::endl;
+    std::cout << "2.Withdraw Amount" << std::endl;
+    std::cout << "3.Modify Your Account" << std::endl;
+    std::cout << "4.Balance Enquiry" << std::endl;
+    std::cout << "5.Close Your Account" << std::endl;
+    std::cout << "6.Exit" << std::endl;
+    std::cout << "=============================================\n\n";
+    std::cout << "enter a number 1-6:";
+    std::cin >> _temp;
+    std::cout << "\n\n=============================================\n\n";
+
+    if(!Util::stringIsDigit(_temp) || stoi(_temp) <1 || stoi(_temp) >6){
+        std::cout << "please try again enter a number between 1 and 6\n\n";
+        return 0;
+    }
+    return stoi(_temp);
+}
+
 Customer Interface::addUserInterface(){
-    std::string temp;
-    Customer customer;
     std::cout << "::ADD USER::\n";
     std::cout << "enter your name: ";
-    std::cin >> temp;
-    customer.setName(temp);
+    std::cin >> _temp;
+    _customer.setName(_temp);
 
     std::cout << "enter you email: ";
-    std::cin >> temp;
-    customer.setEmail(temp);
+    std::cin >> _temp;
+    _customer.setEmail(_temp);
 
     std::cout << "enter your phone: ";
-    std::cin >> temp;
-    customer.setPhone(temp);
+    std::cin >> _temp;
+    _customer.setPhone(_temp);
 
     std::cout << "enter your day of birth (yyyy-mm-dd): ";
-    std::cin >> temp;
-    customer.setDob(temp);
+    std::cin >> _temp;
+    _customer.setDob(_temp);
 
     std::cout << "enter your location: ";
-    std::cin >> temp;
-    customer.setCity(temp);
+    std::cin >> _temp;
+    _customer.setCity(_temp);
 
     std::cout << "enter your pin code: ";
-    std::cin >> temp;
-    customer.setPinCode(temp);
+    std::cin >> _temp;
+    _customer.setPinCode(_temp);
     
     std::cout << "enter your username: ";
-    std::cin >> temp;
-    customer.setLogin(temp);
+    std::cin >> _temp;
+    _customer.setLogin(_temp);
 
     std::cout << "enter your password: ";
-    std::cin >> temp;
-    customer.setPassword(temp);
+    std::cin >> _temp;
+    _customer.setPassword(_temp);
 
     std::cout << "is this account admin y/n: ";
-    std::cin >> temp;
-    if(temp == "y")
-        temp = "1";
+    std::cin >> _temp;
+    if(_temp == "y")
+        _temp = "1";
     else
-        temp = "0";
-    customer.setAdmin(temp);
+        _temp = "0";
+    _customer.setAdmin(_temp);
     
-    return customer;
+    return _customer;
 
 }
 
 int Interface::addUserSuccess(int &state){
-    std::string sure;
     if(state == 0){
         std::cout << "added customer successfully\n";
         std::cout << "would you like to add another customer (y/n): ";
@@ -188,10 +184,10 @@ int Interface::addUserSuccess(int &state){
         std::cout << "would you like to try again (y/n): ";
     }
     
-    std::cin >> sure;
+    std::cin >> _temp;
     std::cout << "\n\n=============================================\n\n";
 
-    if(sure == "y" || sure == "yes"){
+    if(_temp == "y" || _temp == "yes"){
         return 2;
     }
 
@@ -201,7 +197,6 @@ int Interface::addUserSuccess(int &state){
 }
 
 int Interface::deleteUserInterface(std::vector<std::vector<std::string>> &all_user_details){
-    std::string id;
     std::cout << "::BANK USERS::\n\n";
     for(int j=0;j<2;j++){
             std::cout << CUSTOMER_COLUMNS[j] << "\t";
@@ -216,11 +211,55 @@ int Interface::deleteUserInterface(std::vector<std::vector<std::string>> &all_us
         std::cout << std::endl;
     }
     std::cout << "enter account id you want to remove: ";
-    std::cin >> id;
-    if(!stringIsDigit(id)){
+    std::cin >> _temp;
+    if(!Util::stringIsDigit(_temp)){
         std::cout << "the id you enter is not found or its not a number try again" << std::endl;
         return 0;
     }
     std::cout << "account deleted successfully\n\n";
-    return stoi(id);
+    return stoi(_temp);
+}
+
+std::vector<std::string> Interface::updateAdminUserInterface(){
+    _details_temp.clear();
+    std::cout << "enter username: ";
+    std::cin >> _temp;
+    _details_temp.push_back(_temp);
+    std::cout << "enter the column you want to change: ";
+    std::cin >> _temp;
+    _details_temp.push_back(_temp);
+    std::cout << "enter the new value of the column: ";
+    std::cin >> _temp;
+    _details_temp.push_back(_temp);
+    return _details_temp;
+}
+
+std::vector<std::string> Interface::updateUserInterface(){
+    _details_temp.clear();
+    std::cout << "enter the column you want to change: ";
+    std::cin >> _temp;
+    _details_temp.push_back(_temp);
+    std::cout << "enter the new value of the column: ";
+    std::cin >> _temp;
+    _details_temp.push_back(_temp);
+    return _details_temp;
+}
+
+int Interface::updateUserSuccess(bool &state){
+    if(state){
+        std::cout << "update successfully\n";
+        std::cout << "would you like to update another column (y/n): ";
+        
+    }else{
+        std::cout << "update failed please check username, column or the value\n";
+        std::cout << "would you like to try again (y/n): ";
+    }
+
+    std::cin >> _temp;
+    if(_temp == "y" || _temp == "yes"){
+        return 3;
+    }
+
+    return 0;
+    
 }

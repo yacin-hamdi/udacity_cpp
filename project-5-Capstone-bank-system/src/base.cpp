@@ -1,9 +1,9 @@
 #include "base.h"
 
-void Base::checkLogin(){
+void Base::start(){
     _dbHelper.dbConnect();
-    _interface.connectToDatabaseInterface(_dbHelper.isConnected());
-    int a;
+    _is_connected = _dbHelper.isConnected();
+    _interface.connectToDatabaseInterface(_is_connected);
 
     
     while(_dbHelper.isConnected() && !_exit){
@@ -12,6 +12,7 @@ void Base::checkLogin(){
                 adminAccount();
             }else{
                 userAccount();
+
             }
             
         }else{   
@@ -61,9 +62,19 @@ void Base::addAccount(){
 void Base::userAccount(){
     if(_num <= 0 || _num > 6)
         _num = _interface.userInterface();
-    else if(_num == 1)
-        _num = _interface.userAccountDetailsInterface(_dbHelper.getUserDetails());
-    else if(_num == 5){
+    else if(_num == 1){
+        _temp = _dbHelper.getUserDetails();
+        _num = _interface.userAccountDetailsInterface(_temp);
+
+    }else if(_num == 3){
+        _temp = _dbHelper.getUserDetails();
+        _interface.userAccountDetailsInterface(_temp);
+        _temp = _interface.updateUserInterface();
+        _state = _dbHelper.updateUser(_temp[0], _temp[1], _auth.username);
+        _num = _interface.updateUserSuccess(_state);
+
+        
+    }else if(_num == 5){
         closeAccount();
     }else if(_num == 6){
         _exit = true;
@@ -75,12 +86,17 @@ void Base::adminAccount(){
         _num = _interface.adminInterface();
     }else if(_num == 1){
         _dbHelper.getAllUser();
-        _num = _interface.allUserAccountDetailsInterface(_dbHelper.getAllUserDetails());
+        _all_user_details = _dbHelper.getAllUserDetails();
+        _num = _interface.allUserAccountDetailsInterface(_all_user_details);
     }else if(_num == 2){
         addAccount();
     }else if(_num == 3){
-        _dbHelper.updateUser("phone", "152", "moose");
-        _num = 0;
+        _dbHelper.getAllUser();
+        _all_user_details = _dbHelper.getAllUserDetails();
+        _interface.allUserAccountDetailsInterface(_all_user_details);
+        _temp = _interface.updateAdminUserInterface();
+        _state = _dbHelper.updateUser(_temp[1], _temp[2], _temp[0]);
+        _num = _interface.updateUserSuccess(_state);
     }else if(_num == 4){
         deleteUser();    
     }else if(_num == 5){
