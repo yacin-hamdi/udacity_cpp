@@ -5,6 +5,8 @@
 #include<vector>
 #include "constants.h"
 #include "customer.h"
+#include "TextTable.h"
+
 
 struct Auth{
         std::string username;
@@ -16,7 +18,7 @@ class Interface{
         Auth loginInterface();
         bool loginSuccess(bool &success);
         bool connectToDatabaseInterface(bool &connected);
-
+        Interface();
         int adminInterface();
         int userAccountDetailsInterface(std::vector<std::string>&);
         int allUserAccountDetailsInterface(std::vector<std::vector<std::string>>&);
@@ -30,7 +32,7 @@ class Interface{
         int updateUserSuccess(bool &state);
         int userInterface();
 
-    protected:
+    private:
     Auth _auth;
     std::string _temp;
     Customer _customer;

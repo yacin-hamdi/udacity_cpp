@@ -29,6 +29,35 @@ INSERT INTO customer(name, email, phone, dob, city, pincode, login, password) VA
 //also check if the account exist
 
 int main(){
+    // TextTable t( '-', '|', '+' );
+
+    // t.add( "" );
+    // t.add( "Sex" );
+    // t.add( "Age" );
+    // t.endOfRow();
+
+    // t.add( "Moses" );
+    // t.add( "male" );
+    // t.add( "4556" );
+    // t.endOfRow();
+
+    // t.add( "Jesus" );
+    // t.add( "male" );
+    // t.add( "2016" );
+    // t.endOfRow();
+
+    // t.add( "Debora" );
+    // t.add( "female" );
+    // t.add( "3001" );
+    // t.endOfRow();
+
+    // t.add( "Bob" );
+    // t.add( "male" );
+    // t.add( "25" );
+    // t.endOfRow();
+
+    // t.setAlignment( 2, TextTable::Alignment::RIGHT );
+    // std::cout << t;
     std::string filename = "database.dat";
     
     Base base;

@@ -105,11 +105,14 @@ void DatabaseHelper::dbConnect(){
 }
 
 bool DatabaseHelper::updateUser(std::string column, std::string value, std::string login){
-    bool done = false;
     _query = "UPDATE "+CUSTOMER_TABLE+" SET "+column+"='"+value+"' WHERE login='"+login+"'";
     int state = mysql_query(_connection, _query.c_str());
-    done = mysql_affected_rows(_connection);
-    return done;
+    if(state == 0){
+        if(mysql_affected_rows(_connection) != 0)
+            return true;
+    }
+    
+    return false;
 }
 
 

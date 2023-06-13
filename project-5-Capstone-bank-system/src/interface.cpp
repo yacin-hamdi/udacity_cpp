@@ -1,7 +1,11 @@
 #include "interface.h"
 #include "utils.h"
+#include <stdlib.h>
 
 
+Interface::Interface(){
+
+}
 bool Interface::connectToDatabaseInterface(bool &connected){
     std::cout << "connecting to database..." << std::endl;
     if(connected){
@@ -82,28 +86,38 @@ void Interface::byeAccountInterface(){
 
 int Interface::userAccountDetailsInterface(std::vector<std::string> &user_details){
 
+    TextTable _table( '-', '|', '+' );
     for(int i=1;i<user_details.size() - 1;i++){
-        std::cout << CUSTOMER_COLUMNS[i] << " : "<< user_details[i] << "\n";
+        _table.add(CUSTOMER_COLUMNS[i]);
+        _table.add(user_details[i]);
+        _table.endOfRow();
     }
-    std::cout << std::endl;
+    
+
+    
+    _table.setAlignment( 2, TextTable::Alignment::LEFT );
+    std::cout << _table;
     return 0;
 }
 
 int Interface::allUserAccountDetailsInterface(std::vector<std::vector<std::string>> &all_user_details){
 
         std::cout << "::BANK USERS::\n\n";
+        TextTable _table( '-', '|', '+' );
     for(int j=0;j<CUSTOMER_COLUMNS.size();j++){
-            std::cout << CUSTOMER_COLUMNS[j] << "\t";
+        _table.add(CUSTOMER_COLUMNS[j]);
     }
-    std::cout << std::endl;
+    _table.endOfRow();
     for(int i=0;i<all_user_details.size();i++){
         
         for(int j=0;j<all_user_details[0].size();j++){
             
-            std::cout << all_user_details[i][j] << "\t";
+            _table.add(all_user_details[i][j]);
         }
-        std::cout << std::endl;
+        _table.endOfRow();
     }
+    _table.setAlignment(3, TextTable::Alignment::LEFT);
+    std::cout << _table;
     return 0;
 }
 
@@ -198,18 +212,22 @@ int Interface::addUserSuccess(int &state){
 
 int Interface::deleteUserInterface(std::vector<std::vector<std::string>> &all_user_details){
     std::cout << "::BANK USERS::\n\n";
+    TextTable _table( '-', '|', '+' );
     for(int j=0;j<2;j++){
-            std::cout << CUSTOMER_COLUMNS[j] << "\t";
+        _table.add(CUSTOMER_COLUMNS[j]);
     }
-    std::cout << std::endl;
+    _table.endOfRow();
+
     for(int i=0;i<all_user_details.size();i++){
         
         for(int j=0;j<2;j++){
+            _table.add(all_user_details[i][j]);
             
-            std::cout << all_user_details[i][j] << "\t";
         }
-        std::cout << std::endl;
+        _table.endOfRow();
     }
+    _table.setAlignment(2, TextTable::Alignment::RIGHT);
+    std::cout << _table;
     std::cout << "enter account id you want to remove: ";
     std::cin >> _temp;
     if(!Util::stringIsDigit(_temp)){
