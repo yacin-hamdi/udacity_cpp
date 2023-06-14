@@ -3,7 +3,7 @@
 
 
 DatabaseHelper::DatabaseHelper(std::string filename){
-    _database_details.setDetailsFromFile(filename);
+    _database_details.setDetailsFromFile(DATABASE_DETAILS);
 }
 
 
@@ -97,6 +97,7 @@ void DatabaseHelper::dbConnect(){
     _connection = mysql_real_connect(_connection, _database_details.getHostname().c_str(),
      _database_details.getUser().c_str(), _database_details.getPassword().c_str(), _database_details.getDatabase().c_str(), 0, NULL, 0);
 
+    std::cout << _database_details.getUser()<< std::endl;
      if(_connection)
         _success = true;
      else

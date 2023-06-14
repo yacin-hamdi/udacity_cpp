@@ -22,63 +22,24 @@ INSERT INTO customer(name, email, phone, dob, city, pincode, login, password) VA
 
 #include<iostream>
 #include "base.h"
-
+#include "account/accountdbhelper.h"
 
 //todo when remove user account i need to 
 //check i the account i want to remove is not my account or admin account
 //also check if the account exist
 
 int main(){
-    // TextTable t( '-', '|', '+' );
-
-    // t.add( "" );
-    // t.add( "Sex" );
-    // t.add( "Age" );
-    // t.endOfRow();
-
-    // t.add( "Moses" );
-    // t.add( "male" );
-    // t.add( "4556" );
-    // t.endOfRow();
-
-    // t.add( "Jesus" );
-    // t.add( "male" );
-    // t.add( "2016" );
-    // t.endOfRow();
-
-    // t.add( "Debora" );
-    // t.add( "female" );
-    // t.add( "3001" );
-    // t.endOfRow();
-
-    // t.add( "Bob" );
-    // t.add( "male" );
-    // t.add( "25" );
-    // t.endOfRow();
-
-    // t.setAlignment( 2, TextTable::Alignment::RIGHT );
-    // std::cout << t;
-    std::string filename = "database.dat";
     
-    Base base;
-    base.start();
- 
-    // DatabaseHelper databaseHelper(filename);
-    // databaseHelper.dbConnect();
-    // if(databaseHelper.getMysqlConnection())
-    //     std::cout << "you are connected" << std::endl;
-    // else
-    //     std::cout << "you aren't connected to database" << std::endl;
-    // Customer customer("mss", "moos@gmail.com", "25325622", "1988-1-2", "tunis", "750", "helm", "123456789");
+    // std::string filename = "database.dat";
+    
+    // Base base;
+    // base.start();
 
-    // int state = databaseHelper.insertData(customer, "customer");
-    // if(state == 0){
-    //     std::cout << "client inserted successfully" << std::endl;
-    // }else{
-    //     std::cout << "failed to add client" << std::endl;
-    // }
+    AccountDBHelper accountDBHelper;
+    Account account = accountDBHelper.getAccountDetails("aycin");
 
-    // databaseHelper.displayData("customer");
+    std::cout << account.getNumber() << std::endl;
+    
 
     return 0;
 }

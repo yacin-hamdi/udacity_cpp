@@ -1,12 +1,13 @@
 #include "databasedetails.h"
 #include<fstream>
-
+#include <iostream>
 
 
 void Details::setDetailsFromFile(std::string filename){
     std::ifstream file(filename);
     std::string line;
     std::string name;
+    std::cout << "details" << std::endl;
 
     if(file){
         while(getline(file, line)){

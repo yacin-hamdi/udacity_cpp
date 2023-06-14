@@ -33,7 +33,7 @@ class DatabaseHelper{
         std::vector<std::string> getUserDetails();
         std::vector<std::vector<std::string>> getAllUserDetails();
 
-    private:
+    protected:
 
 
 
@@ -47,6 +47,8 @@ class DatabaseHelper{
         std::string _query;
         bool _success;
         const unsigned int PORT = 0;
+
+    
 
 
 };

@@ -5,6 +5,7 @@
 
 const std::string DATABASE_DETAILS = "database.dat";
 const std::string CUSTOMER_TABLE = "customer";
+const std::string ACCOUNT_TABLE = "account";
 
 
 
