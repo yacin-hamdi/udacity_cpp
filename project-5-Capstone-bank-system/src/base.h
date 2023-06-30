@@ -3,6 +3,7 @@
 #include "databasehelper.h"
 #include "interface.h"
 
+
 class Base{
     public:
         Base(){}
@@ -15,18 +16,25 @@ class Base{
         void userAccount();
         void adminAccount();
         void login();
+        void sendMoney();
 
         Interface _interface;
-        DatabaseHelper _dbHelper{DATABASE_DETAILS};
+        DatabaseHelper _dbHelper;
         bool _login_success = false;
         bool _is_connected = false;
         int _num = 0;
         bool _exit = false;
         Auth _auth;
-        std::vector<std::vector<std::string>> _all_user_details;
-        std::vector<std::string> _user_details;
-
+        std::vector<Customer> _all_customer_details;
+        std::vector<Account> _all_account_details;
+        std::vector<Transaction> _all_transaction_details;
+        Customer _customer_details;
+        Account _account_details;
+        Transaction _transaction_details;
+        
+    
         std::vector<std::string> _temp;
+        int _temp_int;
         bool _state;
         
 };

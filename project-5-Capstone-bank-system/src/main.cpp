@@ -23,22 +23,66 @@ INSERT INTO customer(name, email, phone, dob, city, pincode, login, password) VA
 #include<iostream>
 #include "base.h"
 #include "account/accountdbhelper.h"
+#include "transaction/transactiondbhelper.h"
+#include "databasehelper.h"
+#include "transaction/transaction.h"
+#include <string>
+#include "utils/utils.h"
 
 //todo when remove user account i need to 
 //check i the account i want to remove is not my account or admin account
 //also check if the account exist
 
 int main(){
+    DatabaseHelper dbHelper;
+    dbHelper.dbConnect();
+
+    
+    // AccountDBHelper db;
+    // bool status = db.getAllAccountDB(dbHelper.getMysqlConnection());
+    // std::vector<Account> acc = db.getAllAccount();
+
+    // for(int i=0;i<acc.size();i++){
+    //     std::cout << acc[i].getNumber() << std::endl;
+    // }
+
+    // std::string num = Util::increamentNumber(acc);
+    // std::cout << num << std::endl;
+
+
+
+
+    
+    // bool status = transdb.updateTransactionDB(dbHelper.getMysqlConnection(), "1", "transaction_amount", "9333");
+
+   
+
+    // bool status = transdb.getAllTransactionDB(dbHelper.getMysqlConnection());
+    // std::vector<Transaction> trans = transdb.getAllTransaction();
+
+    // for(int i=0;i<trans.size();i++){
+    //     for(int j=0;j < trans[i].getTransactionDetails().size();j++){
+    //         std::cout << trans[i].getTransactionDetails()[j] << "\t";
+    //     }
+    //     std::cout << std::endl;
+    // }
+    
+
+
+    
+    // std::cout << status << std::endl;
+
+    
     
     // std::string filename = "database.dat";
     
-    // Base base;
-    // base.start();
+    Base base;
+    base.start();
 
-    AccountDBHelper accountDBHelper;
-    Account account = accountDBHelper.getAccountDetails("aycin");
+    // AccountDBHelper accountDBHelper;
+    // Account account = accountDBHelper.getAccountDetails("aycin");
 
-    std::cout << account.getNumber() << std::endl;
+    // std::cout << account.getNumber() << std::endl;
     
 
     return 0;

@@ -1,5 +1,5 @@
 #include "interface.h"
-#include "utils.h"
+#include "utils/utils.h"
 #include <stdlib.h>
 
 
@@ -84,13 +84,20 @@ void Interface::byeAccountInterface(){
     std::cout << "bye!\n";
 }
 
-int Interface::userAccountDetailsInterface(std::vector<std::string> &user_details){
+int Interface::userAccountDetailsInterface(Customer &customer, Account & account){
 
     TextTable _table( '-', '|', '+' );
-    for(int i=1;i<user_details.size() - 1;i++){
-        _table.add(CUSTOMER_COLUMNS[i]);
-        _table.add(user_details[i]);
-        _table.endOfRow();
+    for(int i=1;i<customer.getAllDetails().size()+account.getAccountDetails().size();i++){
+        if(i < customer.getAllDetails().size()){
+            _table.add(CUSTOMER_COLUMNS[i]);
+            _table.add(customer.getAllDetails()[i]);
+            _table.endOfRow();
+        }else{
+            _table.add(ACCOUNT_COLUMNS[i - CUSTOMER_COLUMNS.size()]);
+            _table.add(account.getAccountDetails()[i - CUSTOMER_COLUMNS.size()]);
+            _table.endOfRow();
+        }
+        
     }
     
 
@@ -100,21 +107,28 @@ int Interface::userAccountDetailsInterface(std::vector<std::string> &user_detail
     return 0;
 }
 
-int Interface::allUserAccountDetailsInterface(std::vector<std::vector<std::string>> &all_user_details){
+int Interface::allUserAccountDetailsInterface(std::vector<Customer> &all_customer_details, 
+                                                std::vector<Account> &all_account_details){
 
         std::cout << "::BANK USERS::\n\n";
         TextTable _table( '-', '|', '+' );
-    for(int j=0;j<CUSTOMER_COLUMNS.size();j++){
-        _table.add(CUSTOMER_COLUMNS[j]);
+    for(int i=0;i<CUSTOMER_COLUMNS.size()+ACCOUNT_COLUMNS.size();i++){
+        if(i < CUSTOMER_COLUMNS.size())
+            _table.add(CUSTOMER_COLUMNS[i]);
+        else
+            _table.add(ACCOUNT_COLUMNS[i-CUSTOMER_COLUMNS.size()]);
     }
+
     _table.endOfRow();
-    for(int i=0;i<all_user_details.size();i++){
-        
-        for(int j=0;j<all_user_details[0].size();j++){
+    for(int i=0;i<all_customer_details.size();i++){
+        if(!(all_customer_details[i].getAdmin() == ADMIN_PRIVILEGE)){
+            for(int j=0;j<all_customer_details[i].getAllDetails().size();j++){
             
-            _table.add(all_user_details[i][j]);
+                _table.add(all_customer_details[i].getAllDetails()[j]);
+            }
+            _table.endOfRow();
         }
-        _table.endOfRow();
+        
     }
     _table.setAlignment(3, TextTable::Alignment::LEFT);
     std::cout << _table;
@@ -124,10 +138,10 @@ int Interface::allUserAccountDetailsInterface(std::vector<std::vector<std::strin
 int Interface::userInterface(){
     std::cout << "=============================================\n\n";
     std::cout << "::USER INTERFACE::\n\n";
-    std::cout << "1.Account Details" << std::endl;
-    std::cout << "2.Withdraw Amount" << std::endl;
-    std::cout << "3.Modify Your Account" << std::endl;
-    std::cout << "4.Balance Enquiry" << std::endl;
+    std::cout << "1.send money" << std::endl;
+    std::cout << "2.transaction history" << std::endl;
+    std::cout << "3.Account Details" << std::endl;
+    std::cout << "4.Modify Your Account" << std::endl;
     std::cout << "5.Close Your Account" << std::endl;
     std::cout << "6.Exit" << std::endl;
     std::cout << "=============================================\n\n";
@@ -141,6 +155,8 @@ int Interface::userInterface(){
     }
     return stoi(_temp);
 }
+
+//check user input length to prevent buffer overflow
 
 Customer Interface::addUserInterface(){
     std::cout << "::ADD USER::\n";
@@ -188,8 +204,24 @@ Customer Interface::addUserInterface(){
 
 }
 
-int Interface::addUserSuccess(int &state){
-    if(state == 0){
+Account Interface::addAccountInterface(){
+    std::cout << "enter account balance: ";
+    std::cin >> _temp;
+    _account.setBalance(_temp);
+    std::cout << "enter account type(saving/checking): ";
+    std::cin >> _temp;
+    _account.setType(_temp);
+    std::cout << "enter account status(active/blocked): ";
+    std::cin >> _temp;
+    _account.setStatus(_temp);
+    _account.setUsername(_customer.getLogin());
+    _account.setCreationDate("2023-2-2");
+
+    return _account;
+}
+
+int Interface::addUserSuccess(bool &state){
+    if(state){
         std::cout << "added customer successfully\n";
         std::cout << "would you like to add another customer (y/n): ";
 
@@ -210,7 +242,7 @@ int Interface::addUserSuccess(int &state){
 
 }
 
-int Interface::deleteUserInterface(std::vector<std::vector<std::string>> &all_user_details){
+int Interface::deleteUserInterface(std::vector<Customer> &all_user_details){
     std::cout << "::BANK USERS::\n\n";
     TextTable _table( '-', '|', '+' );
     for(int j=0;j<2;j++){
@@ -219,11 +251,13 @@ int Interface::deleteUserInterface(std::vector<std::vector<std::string>> &all_us
     _table.endOfRow();
 
     for(int i=0;i<all_user_details.size();i++){
+
+        if((all_user_details[i].getAdmin() == ADMIN_PRIVILEGE))
+            continue;
+
+        for(int j=0;j<2;j++)
+            _table.add(all_user_details[i].getAllDetails()[j]);
         
-        for(int j=0;j<2;j++){
-            _table.add(all_user_details[i][j]);
-            
-        }
         _table.endOfRow();
     }
     _table.setAlignment(2, TextTable::Alignment::RIGHT);
@@ -234,8 +268,18 @@ int Interface::deleteUserInterface(std::vector<std::vector<std::string>> &all_us
         std::cout << "the id you enter is not found or its not a number try again" << std::endl;
         return 0;
     }
-    std::cout << "account deleted successfully\n\n";
+    
     return stoi(_temp);
+}
+
+int Interface::deleteUserSuccessInterface(bool &success){
+    if(success){
+        std::cout << "account deleted successfully\n\n";
+    }else{
+        std::cout << "failed to remove account it maybe you're trying to delete an admin account\n";
+    }
+    
+    return 0;
 }
 
 std::vector<std::string> Interface::updateAdminUserInterface(){
@@ -281,3 +325,77 @@ int Interface::updateUserSuccess(bool &state){
     return 0;
     
 }
+
+
+Transaction Interface::sendMoneyInterface(){
+    std::cout << "=============================================\n\n";
+    std::cout << "::Transaction::\n\n";
+    std::cout << "how much money you want to send(1$-100$): " <<std::endl;
+    std::cin >> _temp;
+    if(Util::stringIsDigit(_temp)){
+        _transaction.setAmount(_temp);            
+    }
+    
+    std::cout << "account number you want to send money to: ";
+    std::cin >> _temp;
+    _transaction.setTo(_temp);
+    _transaction.setDate("2023-2-2");
+
+    return _transaction;
+
+}
+
+int Interface::sendMoneySuccess(bool &state){
+    if(state){
+        std::cout << "transaction succeed" << std::endl;
+        
+    }else{
+        std::cout << "transaction failed" << std::endl;
+    }
+
+    return 0;
+}
+
+int Interface::TransactionHistoInterface(std::vector<Transaction> transactions){
+    std::cout << "=============================================\n\n";
+    std::cout << "::Transaction History::\n\n";
+    TextTable _table( '-', '|', '+' );
+    for(int i=0;i<TRANSACTION_COLUMNS.size();i++){
+        _table.add(TRANSACTION_COLUMNS[i]);
+    }
+
+    _table.endOfRow();
+    for(int i=0;i<transactions.size();i++){
+        for(int j=0;j<transactions[i].getTransactionDetails().size();j++){
+            
+            _table.add(transactions[i].getTransactionDetails()[j]);
+        }
+            _table.endOfRow();
+        
+    }
+    _table.setAlignment(3, TextTable::Alignment::LEFT);
+    std::cout << _table;
+    return 0;
+
+}
+
+// template<typename t> int Interface::showTable(std::vector<t> vec){
+//     for(int i=0;i<ACCOUNT_COLUMNS;i++){
+//         _table.add(ACCOUNT_COLUMNS[i]);
+//     }
+
+//     _table.endOfRow();
+//     for(int i=0;i<all_customer_details.size();i++){
+//         if(!(all_customer_details[i].getAdmin() == ADMIN_PRIVILEGE)){
+//             for(int j=0;j<all_customer_details[i].getAllDetails().size();j++){
+            
+//                 _table.add(all_customer_details[i].getAllDetails()[j]);
+//             }
+//             _table.endOfRow();
+//         }
+        
+//     }
+//     _table.setAlignment(3, TextTable::Alignment::LEFT);
+//     std::cout << _table;
+//     return 0;
+// }

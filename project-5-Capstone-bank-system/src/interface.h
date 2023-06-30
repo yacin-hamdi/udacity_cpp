@@ -3,9 +3,12 @@
 
 #include<iostream>
 #include<vector>
-#include "constants.h"
-#include "customer.h"
-#include "TextTable.h"
+#include "utils/constants.h"
+#include "customer/customer.h"
+#include "account/account.h"
+#include "transaction/transaction.h"
+#include "utils/TextTable.h"
+#include "transaction/transaction.h"
 
 
 struct Auth{
@@ -20,22 +23,33 @@ class Interface{
         bool connectToDatabaseInterface(bool &connected);
         Interface();
         int adminInterface();
-        int userAccountDetailsInterface(std::vector<std::string>&);
-        int allUserAccountDetailsInterface(std::vector<std::vector<std::string>>&);
-        int deleteUserInterface(std::vector<std::vector<std::string>>&);
+        int userAccountDetailsInterface(Customer&, Account&);
+        int allUserAccountDetailsInterface(std::vector<Customer>&, std::vector<Account>&);
+
+        int deleteUserInterface(std::vector<Customer> &);
+        int deleteUserSuccessInterface(bool &success);
+        
         std::vector<std::string> updateAdminUserInterface();
         std::vector<std::string> updateUserInterface();
         std::string closeAccountInterface();
         void byeAccountInterface();
         Customer addUserInterface();
-        int addUserSuccess(int &state);
+        Account addAccountInterface();
+        Transaction sendMoneyInterface();
+
+        int addUserSuccess(bool &state);
         int updateUserSuccess(bool &state);
+        int sendMoneySuccess(bool &state);
         int userInterface();
+        int TransactionHistoInterface(std::vector<Transaction>);
+        template<typename t> int showTable(std::vector<t> vec);
 
     private:
     Auth _auth;
     std::string _temp;
     Customer _customer;
+    Account _account;
+    Transaction _transaction;
     std::vector<std::string> _details_temp;
 };
 
